@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  distDir: ".next",
+  distDir: "build",
   images: {
     domains: ["lh3.googleusercontent.com"], // allowed domains here
   },
