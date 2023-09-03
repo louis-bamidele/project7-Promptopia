@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import PromptFile from "./PromptFile";
 import { useRouter } from "next/navigation";
 const PromptFileList = ({ data, handleTagClick }) => {
@@ -17,6 +17,7 @@ const PromptFileList = ({ data, handleTagClick }) => {
 };
 const Feed = () => {
   const router = useRouter();
+  const submit = useRef(null);
   const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState([]);
   const [fetchTrigger, setFetchTrigger] = useState(0);
@@ -24,7 +25,6 @@ const Feed = () => {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchText(value);
-    console.log(posts);
     if (value.length > 0) {
       const filteredSearchPosts = posts.filter((post) => {
         return (
@@ -33,7 +33,6 @@ const Feed = () => {
           post.prompt.includes(value)
         );
       });
-      console.log(filteredSearchPosts);
       setPosts(filteredSearchPosts);
     } else {
       setFetchTrigger(fetchTrigger + 1);
@@ -41,6 +40,12 @@ const Feed = () => {
   };
   const handleTagClick = (tag) => {
     setSearchText(tag);
+    // Create a new Event object for the 'change' event
+    const event = new Event("change");
+
+    // Trigger the 'change' event
+    submit.current.dispatchEvent(event);
+    console.log(submit.current);
     // handleSearchChange();
   };
   useEffect(() => {
@@ -56,12 +61,13 @@ const Feed = () => {
       <form className='relative w-full flex-center'>
         <input
           type='text'
+          ref={submit}
           placeholder='Search for a Tag, username and any keywords'
           value={searchText}
+          pattern='^[A-Za-z\s]*$'
           onChange={handleSearchChange}
           onBlur={handleSearchChange}
-          required
-          className='search_input peer'
+          className='search_input peer slideLeftReturn'
         />
       </form>
       <PromptFileList data={posts} handleTagClick={handleTagClick} />
