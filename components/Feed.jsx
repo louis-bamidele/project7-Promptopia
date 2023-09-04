@@ -25,28 +25,25 @@ const Feed = () => {
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchText(value);
-    if (value.length > 0) {
-      const filteredSearchPosts = posts.filter((post) => {
-        return (
-          post.tag.includes(value) ||
-          post.creator.username.includes(value) ||
-          post.prompt.includes(value)
-        );
-      });
-      setPosts(filteredSearchPosts);
+    if (searchText.length > 0) {
+      filteredSearchPosts(value);
     } else {
       setFetchTrigger(fetchTrigger + 1);
     }
   };
   const handleTagClick = (tag) => {
     setSearchText(tag);
-    // Create a new Event object for the 'change' event
-    // const event = new Event("change");
-
-    // Trigger the 'change' event
-    submit.current.click();
-    // console.log(submit.current);
-    // handleSearchChange();
+    filteredSearchPosts(tag);
+  };
+  const filteredSearchPosts = (value) => {
+    let filtered = posts.filter((post) => {
+      return (
+        post.tag.includes(value) ||
+        post.creator.username.includes(value) ||
+        post.prompt.includes(value)
+      );
+    });
+    setPosts(filtered);
   };
   useEffect(() => {
     const fetchPosts = async () => {
