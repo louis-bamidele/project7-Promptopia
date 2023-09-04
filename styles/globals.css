@@ -128,7 +128,9 @@
 
 /* Form Component */
 .form_textarea {
-  @apply w-full flex rounded-lg h-[200px] mt-2 p-3 text-sm text-gray-500 outline-0;
+  resize: none;
+  @apply w-full flex rounded-lg  mt-2 p-3 text-sm
+    text-gray-500 outline-0;
 }
 
 .form_input {
@@ -168,13 +170,21 @@
 .flex-between {
   @apply flex justify-between items-center;
 }
+.form_validate {
+  display: none;
+}
+.form_input_isvalid:invalid + .form_validate {
+  display: block;
+  color: red;
+}
 /* css magic */
 
-.search_input:invalid {
+.form_input_isvalid:invalid {
   animation-name: slideLeftReturn;
   animation-duration: 200ms;
   animation-iteration-count: infinite;
-  @apply border-red-500;
+  border-width: 1.3px;
+  border-color: red;
 }
 @-webkit-keyframes slideLeftReturn {
   0% {

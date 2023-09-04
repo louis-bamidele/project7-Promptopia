@@ -1,6 +1,17 @@
 import Link from "next/link";
 
 const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
+  const handleTagChange = (e) => {
+    let value = e.target.value;
+    let regex = /^[a-zA-Z]*$/;
+    setPost({ ...post, tag: e.target.value });
+    let boolean = regex.test(value);
+    if (boolean) {
+      e.target.classList.remove("form_input_isvalid");
+    } else {
+      e.target.classList.add("form_input_isvalid");
+    }
+  };
   return (
     <section className='w-full max-w-full flex-start flex-col'>
       <h1 className='head_text text-left'>
@@ -21,6 +32,8 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
             value={post.prompt}
             onChange={(e) => setPost({ ...post, prompt: e.target.value })}
             placeholder='Write your prompt here....'
+            rows='6'
+            cols='30'
             required
             className='form_textarea'
           />
@@ -34,11 +47,16 @@ const Form = ({ type, post, setPost, submitting, handleSubmit }) => {
           </span>
           <input
             value={post.tag}
-            onChange={(e) => setPost({ ...post, tag: e.target.value })}
+            onChange={(e) => handleTagChange(e)}
             placeholder='#TAG'
+            pattern='^[a-zA-Z]*$'
             required
             className='form_input'
           />
+          <span className='form_validate'>
+            Only letters are allowed. space, numbers and special characters
+            ain't allowed
+          </span>
         </label>
         <div className='flex-end mx-3 mb-5 gap-4'>
           <Link className='text-gray-500 text-sm' href='#'>

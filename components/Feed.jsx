@@ -41,11 +41,11 @@ const Feed = () => {
   const handleTagClick = (tag) => {
     setSearchText(tag);
     // Create a new Event object for the 'change' event
-    const event = new Event("change");
+    // const event = new Event("change");
 
     // Trigger the 'change' event
-    submit.current.dispatchEvent(event);
-    console.log(submit.current);
+    submit.current.click();
+    // console.log(submit.current);
     // handleSearchChange();
   };
   useEffect(() => {
@@ -64,7 +64,6 @@ const Feed = () => {
           ref={submit}
           placeholder='Search for a Tag, username and any keywords'
           value={searchText}
-          pattern='^[A-Za-z\s]*$'
           onChange={handleSearchChange}
           onBlur={handleSearchChange}
           className='search_input peer slideLeftReturn'
