@@ -21,7 +21,7 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState([]);
   const [fetchTrigger, setFetchTrigger] = useState(0);
-
+  const [Data, setData] = useState([]);
   const handleSearchChange = (e) => {
     const value = e.target.value;
     setSearchText(value);
@@ -36,7 +36,7 @@ const Feed = () => {
     filteredSearchPosts(tag);
   };
   const filteredSearchPosts = (value) => {
-    let filtered = posts.filter((post) => {
+    let filtered = Data.filter((post) => {
       return (
         post.tag.includes(value) ||
         post.creator.username.includes(value) ||
@@ -50,6 +50,7 @@ const Feed = () => {
       const response = await fetch("/api/prompt");
       const data = await response.json();
       setPosts(data);
+      setData(data);
     };
     fetchPosts();
   }, [fetchTrigger]);
